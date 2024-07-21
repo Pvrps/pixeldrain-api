@@ -1,0 +1,16 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "App",
+            "request": "launch",
+            "mainClass": "ca.purps.pixeldrain.App",
+            "projectName": "pixeldrain_api",
+            "vmArgs": "--module-path D:\\tools\\javafx\\javafx-sdk-21.0.4\\lib --add-modules javafx.controls,javafx.fxml"
+        }
+    ]
+}
