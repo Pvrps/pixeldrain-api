@@ -13,7 +13,7 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        
+
         <src.dir>src/main/java</src.dir>
         <resources.dir>src/main/resources</resources.dir>
     </properties>
@@ -80,6 +80,11 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
+            <groupId>com.github.oshi</groupId>
+            <artifactId>oshi-core</artifactId>
+            <version>6.4.2</version>
+        </dependency>
+        <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
             <version>5.9.2</version>
@@ -119,25 +124,27 @@
                 <artifactId>maven-assembly-plugin</artifactId>
                 <executions>
                     <execution>
+                        <id>make-assembly</id>
                         <phase>package</phase>
                         <goals>
                             <goal>single</goal>
                         </goals>
+                        <configuration>
+                            <finalName>${project.artifactId}</finalName>
+                            <appendAssemblyId>false</appendAssemblyId>
+                            <archive>
+                                <manifest>
+                                    <mainClass>ca.purps.pixeldrain.Launcher</mainClass>
+                                </manifest>
+                            </archive>
+                            <descriptorRefs>
+                                <descriptorRef>jar-with-dependencies</descriptorRef>
+                            </descriptorRefs>
+                        </configuration>
                     </execution>
                 </executions>
-                <configuration>
-                    <finalName>${project.artifactId}</finalName>
-                    <appendAssemblyId>false</appendAssemblyId>
-                    <archive>
-                        <manifest>
-                            <mainClass>ca.purps.pixeldrain.Launcher</mainClass>
-                        </manifest>
-                    </archive>
-                    <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
-                </configuration>
             </plugin>
+            <!-- Launch4j plugin: wraps the fat JAR as an EXE -->
             <plugin>
                 <groupId>com.akathist.maven.plugins.launch4j</groupId>
                 <artifactId>launch4j-maven-plugin</artifactId>
@@ -151,14 +158,15 @@
                         </goals>
                         <configuration>
                             <headerType>gui</headerType>
-                            <jar>${project.build.directory}\${project.artifactId}.jar</jar>
-                            <outfile>${project.build.directory}\launcher\${project.artifactId}.exe</outfile>
+                            <!-- This must point to the JAR-with-dependencies -->
+                            <jar>${project.build.directory}/${project.artifactId}.jar</jar>
+                            <outfile>${project.build.directory}/launcher/${project.artifactId}.exe</outfile>
                             <classPath>
                                 <mainClass>ca.purps.pixeldrain.Launcher</mainClass>
                             </classPath>
                             <jre>
                                 <path>${java.home}</path>
-                                <requires64Bit/>
+                                <requires64Bit />
                             </jre>
                         </configuration>
                     </execution>
